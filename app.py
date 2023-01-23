@@ -2,13 +2,12 @@ import requests
 from bs4 import BeautifulSoup
 import pandas as pd
 import re
-from companylist import companyArray
+from companylist import companyArray, sectorName
 
 data = {'Company': [], 'LTP': [], 'EPS': [], 'P/E ratio': []}
 df = pd.DataFrame(data)
 
 for companyName in companyArray:
-    # print("https://merolagani.com/CompanyDetail.aspx?symbol="+companyName)
     url = "https://merolagani.com/CompanyDetail.aspx?symbol="+companyName
 
     r = requests.get(url)
@@ -38,5 +37,7 @@ for companyName in companyArray:
     # print(len(df))
     df.loc[len(df)] = [company, ltp, eps, pe]
 
-    df.to_json('data.json')
+    df.to_json(sectorName+'.json')
 print(df)
+input("This data has been stored in "+sectorName +
+      ".json file in current directory.\n Press any key and enter to exit.")
